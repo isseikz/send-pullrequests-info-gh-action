@@ -1,10 +1,9 @@
 name: 'Send Pull Requests info GitHub Action'
 description: 'Notify new Pull Request into the server'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  github-token:
+    description: 'GitHub token is required to push our commits into your pull requests.'
     required: true
-    default: 'World'
 outputs:
   time: # id of output
     description: 'The time we greeted you'
