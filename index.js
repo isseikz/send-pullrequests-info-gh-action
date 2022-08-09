@@ -17,19 +17,22 @@ async function main() {
 
   const diff = await getDiffFromMain();
   const branch = await getBranchName();
-  postDiffToServer(diff, branch);
+  if (diff != null && branch != null) {
+    postDiffToServer(diff, branch);
+  }
 }
 
 async function getDiffFromMain() {
   return exec('git log -p -1', (error, stdout, stderr) => {
     if (error) {
         console.log(`error while 'git log': ${error.message}`);
-        return;
+        return null;
     }
     if (stderr) {
         console.log(`stderr while 'git log': ${stderr}`);
-        return;
+        return null;
     }
+    return stdout;
   });
 }
 
@@ -37,12 +40,13 @@ async function getBranchName() {
   return exec('git rev-parse --abbrev-ref HEAD', (error, stdout, stderr) => {
     if (error) {
         console.error(`error while 'git log': ${error.message}`);
-        return;
+        return null;
     }
     if (stderr) {
         console.error(`stderr while 'git log': ${stderr}`);
-        return;
+        return null;
     }
+    return stdout;
   });
 }
 
