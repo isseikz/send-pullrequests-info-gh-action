@@ -15,8 +15,8 @@ function main() {
   const githubToken = core.getInput('github-token').trim();
   const octokit = github.getOctokit(githubToken);
 
-  const diff = getDiffFromMain();
-  const branch = getBranchName();
+  const diff = await getDiffFromMain();
+  const branch = await getBranchName();
   postDiffToServer(diff, branch);
 }
 
