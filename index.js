@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { exec } = require("child_process");
+const util = require('node:util');
+const exec = util.promisify(require("child_process").exec);
 
 try {
   main();
@@ -13,44 +14,21 @@ async function main() {
   console.log(`The event payload: ${payload}`);
 
   const githubToken = core.getInput('github-token').trim();
+  const branch = core.getInput('branch-name').trim();
   const octokit = github.getOctokit(githubToken);
 
   const diff = await getDiffFromMain();
-  const branch = await getBranchName();
   if (diff != null && branch != null) {
     postDiffToServer(diff, branch);
   }
 }
 
 async function getDiffFromMain() {
-  return exec('git log -p -1', (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error while 'git log': ${error.message}`);
-        return null;
-    }
-    if (stderr) {
-        console.log(`stderr while 'git log': ${stderr}`);
-        return null;
-    }
-    return stdout;
-  });
+  const { stdout, stderr } = await exec('git log -p -1');
+  return stdout;
 }
 
-async function getBranchName() {
-  return exec('git rev-parse --abbrev-ref HEAD', (error, stdout, stderr) => {
-    if (error) {
-        console.error(`error while 'git log': ${error.message}`);
-        return null;
-    }
-    if (stderr) {
-        console.error(`stderr while 'git log': ${stderr}`);
-        return null;
-    }
-    return stdout;
-  });
-}
-
-async function postDiffToServer(branch, diff) {
+async function postDiffToServer(diff, branch) {
   console.log(`branch: ${branch}`);
   console.log(`diff: ${diff}`);
 }

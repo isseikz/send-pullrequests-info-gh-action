@@ -4,6 +4,9 @@ inputs:
   github-token:
     description: 'GitHub token is required to push our commits into your pull requests.'
     required: true
+  branch-name:
+    description: 'Branch to push the result'
+    required: true
 outputs:
   time: # id of output
     description: 'The time we greeted you'
