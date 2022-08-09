@@ -14,10 +14,10 @@ async function main() {
   console.log(`The event payload: ${payload}`);
 
   const githubToken = core.getInput('github-token').trim();
+  const branch = core.getInput('branch-name').trim();
   const octokit = github.getOctokit(githubToken);
 
   const diff = await getDiffFromMain();
-  const branch = await getBranchName();
   if (diff != null && branch != null) {
     postDiffToServer(diff, branch);
   }
@@ -25,11 +25,6 @@ async function main() {
 
 async function getDiffFromMain() {
   const { stdout, stderr } = await exec('git log -p -1');
-  return stdout;
-}
-
-async function getBranchName() {
-  const { stdout, stderr } = await exec('git branch --show-current');
   return stdout;
 }
 
