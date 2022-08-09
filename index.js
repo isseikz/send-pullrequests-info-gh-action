@@ -8,7 +8,7 @@ try {
   core.setFailed(error.message);
 }
 
-function main() {
+async function main() {
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`);
 
