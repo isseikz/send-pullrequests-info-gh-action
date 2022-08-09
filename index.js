@@ -11,7 +11,7 @@ function main() {
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   console.log(`The event payload: ${payload}`);
 
-  const gitHubToken = core.getInput('github-token').trim();
+  const githubToken = core.getInput('github-token').trim();
   const octokit = github.getOctokit(githubToken);
 
   const diff = getDiffFromMain();
