@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const { exec } = require("child_process");
 
 try {
   main();
@@ -20,7 +21,19 @@ function main() {
 }
 
 async function getDiffFromMain() {
+  const patch = exec('git log -p -1', (error, stdout, stderr) => {
+    if (error) {
+        console.log(`error while 'git log': ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.log(`stderr while 'git log': ${stderr}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
+  });
 
+  console.log(`Git diff: ${patch}`);
 }
 
 async function getBranchName() {
