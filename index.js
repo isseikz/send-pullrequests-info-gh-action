@@ -29,7 +29,7 @@ async function getDiffFromMain() {
 }
 
 async function getBranchName() {
-  const { stdout, stderr } = await exec('git rev-parse --abbrev-ref HEAD');
+  const { stdout, stderr } = await exec('git branch --show-current');
   return stdout;
 }
 
