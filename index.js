@@ -21,7 +21,7 @@ function main() {
 }
 
 async function getDiffFromMain() {
-  const patch = exec('git log -p -1', (error, stdout, stderr) => {
+  return exec('git log -p -1', (error, stdout, stderr) => {
     if (error) {
         console.log(`error while 'git log': ${error.message}`);
         return;
@@ -30,16 +30,23 @@ async function getDiffFromMain() {
         console.log(`stderr while 'git log': ${stderr}`);
         return;
     }
-    console.log(`stdout: ${stdout}`);
   });
-
-  console.log(`Git diff: ${patch}`);
 }
 
 async function getBranchName() {
-
+  return exec('git rev-parse --abbrev-ref HEAD', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`error while 'git log': ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.error(`stderr while 'git log': ${stderr}`);
+        return;
+    }
+  });
 }
 
 async function postDiffToServer(branch, diff) {
-
+  console.log(`branch: ${branch}`);
+  console.log(`diff: ${diff}`);
 }
