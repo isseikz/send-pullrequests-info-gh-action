@@ -1,15 +1,15 @@
 name: 'Send Pull Requests info GitHub Action'
 description: 'Notify new Pull Request into the server'
 inputs:
-  github-token:
-    description: 'GitHub token is required to push our commits into your pull requests.'
+  diff:
+    description: 'Result of git diff'
     required: true
-  branch-name:
-    description: 'Branch to push the result'
+  sha:
+    description: 'SHA is used to identify your commit'
     required: true
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  collection:
+    description: 'Collection name on storege'
+    required: true
 runs:
   using: 'node16'
   main: 'index.js'
