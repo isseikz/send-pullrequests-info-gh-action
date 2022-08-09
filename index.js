@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { exec } = require("child_process");
+const util = require('node:util');
+const exec = util.promisify(require("child_process").exec);
 
 try {
   main();
@@ -32,7 +33,7 @@ async function getBranchName() {
   return stdout;
 }
 
-async function postDiffToServer(branch, diff) {
+async function postDiffToServer(diff, branch) {
   console.log(`branch: ${branch}`);
   console.log(`diff: ${diff}`);
 }
